@@ -1,0 +1,33 @@
+.chatWithMeButton {
+    cursor: pointer;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0,0, 0.33);
+    /* // Border */
+    Border-Radius: 50%;
+    /* // Background  */
+    background-image: url("https://icons-for-free.com/download-icon-chatting+circle+comment+message+messaging+icon-1320196705395549748_512.png"); 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px;
+    /* // Size */
+    width: 50px;
+    height: 50px;
+}
+
+.supportWindow {
+    /* // Position */
+    position: fixed;
+    bottom: 60px;
+    right: 24px;
+    /* // Size */
+    width: 420px;
+    height: 530px;
+    max-width: calc(100% - 48px);
+    max-height: calc(100% - 48px);
+    background-color: white;
+    /* // Border */
+    border-radius: 12px;
+    border: 2px solid #7a39e0;
+    overflow: hidden;
+    /* // Shadow */
+    box-shadow: 0px 0px 16px 6px rgba(0, 0, 0, 0.33);
+}

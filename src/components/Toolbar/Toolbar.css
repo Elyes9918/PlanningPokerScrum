@@ -1,8 +1,9 @@
 .AppBar {
-  box-shadow: none;
-  background-color:  var(--color-background);
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.088);;
+  background-color:  rgb(252, 252, 252);
   flex-grow: 1;
   white-space: nowrap;
+
 }
 
 .HeaderContainer {

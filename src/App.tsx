@@ -1,7 +1,7 @@
 import { CssBaseline } from '@material-ui/core';
 import { StylesProvider, ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { GameController } from './components/Poker/GameController/GameController';
+import EtasksList from './components/Poker/EtasksList/EtasksList';
 import TasksList from './components/Poker/TasksList/TasksList';
 import { Toolbar } from './components/Toolbar/Toolbar';
 import { GamePage } from './pages/GamePage/GamePage';
@@ -21,6 +21,7 @@ function App() {
             <Route exact path='/game/:id' component={GamePage} />
             <Route exact path='/game/:id/:taskId' component={GamePage} />
             <Route exact path='/tasks/:gameId' component={TasksList} />
+            <Route exact path='/etasks/:gameId' component={EtasksList} />
             <Route path='/join/:id' component={HomePage} />
             <Route exact path='/home' component={HomePage} />
             <Route exact path='/join' component={HomePage} />

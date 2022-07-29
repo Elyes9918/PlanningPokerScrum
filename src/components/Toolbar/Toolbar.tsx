@@ -1,4 +1,4 @@
-import { Button, Slide, useMediaQuery } from '@material-ui/core';
+import { Button, Slide, useMediaQuery,Divider } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import AppToolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -70,7 +70,9 @@ export const Toolbar = () => {
               </Button>
             </div>
             
+            
           </div>
+          <Divider variant='middle'></Divider>
         </AppToolbar>
       </AppBar>
     </Slide>

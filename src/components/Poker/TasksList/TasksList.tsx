@@ -26,7 +26,7 @@ export const TasksList = () => {
              <Table striped bordered hover style={{maxWidth: 1300,marginTop:20}} className="center-table">
                 
                 <thead>
-                <tr>
+                <tr style={{textAlign:'center'}}>
                     <th>Task id</th>
                     <th scope="" >Tasks details</th>
                     <th scope="" style={{width:137}} >Estimation</th>

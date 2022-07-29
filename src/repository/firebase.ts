@@ -19,7 +19,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const gamesCollectionName = 'games';
 const playersCollectionName = 'players';
-const tasksCollectionName ='tasks';
+const tasksCollectionName = 'tasks';
 const db = firebase.firestore();
 
 // Games ---------------------------------------------------------------------------------------------------------------------
@@ -97,4 +97,28 @@ export const deletePlayerFromStore = async (gameId:string,plyaerId:string)=>{
 export const addEtaskToGameinSTore = async (gameId:string,etask:Etask) =>{
   await db.collection(gamesCollectionName).doc(gameId).collection(tasksCollectionName).doc(etask.id).set(etask);
   return true;
+}
+
+export const getEtasksFromStore = async (gameId: string): Promise<Etask[]> => {
+  const db = firebase.firestore();
+  const response = db.collection(gamesCollectionName).doc(gameId).collection(tasksCollectionName);
+  const results = await response.get();
+  let etasks: Etask[] = [];
+  results.forEach((result) => etasks.push(result.data() as Etask));
+  return etasks;
+};
+
+export const getEtaskFromStore = async (gameId: string, etaskId: string): Promise<Etask | undefined> => {
+  const db = firebase.firestore();
+  const response = db.collection(gamesCollectionName).doc(gameId).collection(tasksCollectionName).doc(etaskId);
+  const result = await response.get();
+  let etask = undefined;
+  if (result.exists) {
+    etask = result.data();
+  }
+  return etask as Etask;
+};
+
+export const deleteEtaskFromStore = async (gameId:string,etaskId:string)=>{
+  await db.collection(gamesCollectionName).doc(gameId).collection(tasksCollectionName).doc(etaskId).delete();
 }

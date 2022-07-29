@@ -11,7 +11,11 @@ import {
 import { NewGame } from '../types/game';
 import { Player } from '../types/player';
 import { Status } from '../types/status';
+import { Etask } from '../types/task';
 import { resetPlayers, updatePlayerGames } from './players';
+import { addTask } from './tasks';
+
+
 
 export const addNewGame = async (newGame: NewGame): Promise<string> => {
   const player = {
@@ -64,7 +68,7 @@ export const resetGame = async (gameId: string) => {
   }
 };
 
-export const finishGame = async (gameId: string) => {
+export const finishGame = async (gameId: string,task?:Etask) => {
   const game = await getGameFromStore(gameId);
   const players = await getPlayersFromStore(gameId);
 
@@ -75,6 +79,9 @@ export const finishGame = async (gameId: string) => {
     };
     updateGame(gameId, updatedGame);
   }
+
+  task.estimation=getAverage(players);
+  addTask(gameId,task);
 };
 
 export const getAverage = (players: Player[]): number => {

@@ -5,7 +5,7 @@ export interface Task {
     author:string;
 }
 
-export class Etask {
+export interface Etask {
     id: string;
     title: string;
     body: string;

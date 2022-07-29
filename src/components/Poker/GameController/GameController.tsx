@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, Divider, Grow, IconButton, Snackbar, Typography } from '@material-ui/core';
-import { blue, green, orange,purple } from '@material-ui/core/colors';
+import { blue, green, orange,purple,brown } from '@material-ui/core/colors';
 import RefreshIcon from '@material-ui/icons/Autorenew';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import LinkIcon from '@material-ui/icons/Link';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import DesktopMac from '@material-ui/icons/DesktopMac';
 import Dock from '@material-ui/icons/Dock'
 import Alert from '@material-ui/lab/Alert';
 import React, { useState } from 'react';
@@ -14,9 +15,6 @@ import Table from 'react-bootstrap/Table';
 
 import './GameController.css';
 import useAxios from '../../../service/useAxios';
-import { Etask } from '../../../types/task';
-import { addTask } from '../../../service/tasks';
-import { addEtaskToGameinSTore } from '../../../repository/firebase';
 
 
 interface GameControllerProps {
@@ -51,27 +49,18 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
     history.push(`/tasks/${game.id}`)
   };
 
+  const goToEtasks = () =>{
+    history.push(`/etasks/${game.id}`)
+  };
+
   const isModerator = (moderatorId: string, currentPlayerId: string) => {
     return moderatorId === currentPlayerId;
   };
 
 
-  const saveTask = () =>{
-    const currentEtask = new Etask();
-    currentEtask.id=TaskById.id;
-    currentEtask.title=TaskById.title;
-    currentEtask.body=TaskById.body;
-    currentEtask.author=TaskById.author;
-    currentEtask.estimation=game.average;
-
-    addTask(game.id,currentEtask);
-    console.log(currentEtask)
-  };
-
-
   return (
     <div>
-    <Grow in={true} timeout={2000}>
+    <Grow in={true} timeout={1000}>
       <div className='GameController'>
         <Card variant='outlined' className='GameControllerCard' style={{width:700}}>
           <CardHeader
@@ -101,7 +90,14 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
               <>
                 <div className='GameControllerButtonContainer'>
                   <div className='GameControllerButton'>
-                    <IconButton onClick={() => finishGame(game.id) && saveTask()} data-testid='reveal-button' color='primary'>
+                    <IconButton onClick={() => finishGame(game.id,{ 
+                                                            id: TaskById.id,
+                                                            title: TaskById.title,
+                                                            body: TaskById.body,
+                                                            author: TaskById.author,
+                                                            estimation: game.average
+                                                          })} 
+                      data-testid='reveal-button' color='primary'>
                       <VisibilityIcon fontSize='large' style={{ color: green[500] }} />
                     </IconButton>
                   </div>
@@ -117,14 +113,23 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
                   <Typography variant='caption'>Restart</Typography>
                 </div>
 
-                <div className='GameControllerButtonContainer'>
-              <div className='GameControllerButton'>
-                <IconButton data-testid='tasks-button' onClick={() => goToTasks()}>
-                  <Dock fontSize='large' style={{ color: purple[500] }} />
-                </IconButton>
+              <div className='GameControllerButtonContainer'>
+                <div className='GameControllerButton'>
+                  <IconButton data-testid='tasks-button' onClick={() => goToTasks()}>
+                    <Dock fontSize='large' style={{ color: purple[500] }} />
+                  </IconButton>
+                </div>
+                <Typography variant='caption'>Tasks</Typography>
               </div>
-              <Typography variant='caption'>Tasks</Typography>
-             </div>
+
+              <div className='GameControllerButtonContainer'>
+                <div className='GameControllerButton'>
+                  <IconButton data-testid='tasks-button' onClick={() => goToEtasks()}>
+                    <DesktopMac fontSize='large' style={{ color: brown[500] }} />
+                  </IconButton>
+                </div>
+                <Typography variant='caption'>E-Tasks</Typography>
+              </div>
               </>
             )}
            
