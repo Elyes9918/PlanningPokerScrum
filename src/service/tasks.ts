@@ -10,8 +10,6 @@ export const addTask = async (gameId: string, etask: Etask): Promise<boolean> =>
     return true;
 };
 
-
-
 export const deleteEtaskById = async(gameId:string,etaskId:string)=>{
     await deleteEtaskFromStore(gameId,etaskId);
   };

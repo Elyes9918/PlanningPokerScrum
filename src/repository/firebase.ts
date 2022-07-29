@@ -2,6 +2,7 @@ import 'firebase/analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Game } from '../types/game';
+import { Message } from '../types/message';
 import { Player } from '../types/player';
 import { Etask } from '../types/task';
 
@@ -20,6 +21,7 @@ firebase.initializeApp(firebaseConfig);
 const gamesCollectionName = 'games';
 const playersCollectionName = 'players';
 const tasksCollectionName = 'tasks';
+const messagesCollectionName='messages'
 const db = firebase.firestore();
 
 // Games ---------------------------------------------------------------------------------------------------------------------
@@ -121,4 +123,40 @@ export const getEtaskFromStore = async (gameId: string, etaskId: string): Promis
 
 export const deleteEtaskFromStore = async (gameId:string,etaskId:string)=>{
   await db.collection(gamesCollectionName).doc(gameId).collection(tasksCollectionName).doc(etaskId).delete();
+}
+
+//Chat ------------------------------------------------------------------------------------------------------------------------
+
+export const addMessageToGameinSTore = async (gameId:string,message:Message) =>{
+  await db.collection(gamesCollectionName).doc(gameId).collection(messagesCollectionName).doc(message.id).set(message);
+  return true;
+}
+
+export const streamMessagesFromStore = (gameId: string) => {
+  return db.collection(gamesCollectionName).doc(gameId).collection(messagesCollectionName);
+};
+
+export const getMessagesFromStore = async (gameId: string): Promise<Message[]> => {
+  const db = firebase.firestore();
+  const response = db.collection(gamesCollectionName).doc(gameId).collection(messagesCollectionName);
+  const results = await response.get();
+  let messages: Message[] = [];
+  results.forEach((result) => messages.push(result.data() as Message));
+  return messages;
+};
+
+
+export const getMessageFromStore = async (gameId: string, messageId: string): Promise<Message | undefined> => {
+  const db = firebase.firestore();
+  const response = db.collection(gamesCollectionName).doc(gameId).collection(messagesCollectionName).doc(messageId);
+  const result = await response.get();
+  let message = undefined;
+  if (result.exists) {
+    message = result.data();
+  }
+  return message as Message;
+};
+
+export const deleteMessageFromStore = async (gameId:string,messageId:string)=>{
+  await db.collection(gamesCollectionName).doc(gameId).collection(messagesCollectionName).doc(messageId).delete();
 }

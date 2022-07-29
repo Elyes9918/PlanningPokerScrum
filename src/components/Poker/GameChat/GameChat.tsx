@@ -1,4 +1,3 @@
-import { Avatar } from "@material-ui/core";
 import { useEffect, useRef, useState } from "react";
 import { Game } from "../../../types/game";
 import { Player } from "../../../types/player";
@@ -47,7 +46,7 @@ interface GameChatProps {
     return (
     <div ref={wrapperRef }>
 
-      <ChatWindow visible={visible}/>
+      <ChatWindow visible={visible} game={game} players={players} currentPlayerId={currentPlayerId}/>
 
       <AvatarChat style={{
         position: 'fixed',

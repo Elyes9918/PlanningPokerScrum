@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { styles } from "./styles";
 
 export const AvatarChat = (props) =>{
     const [hovered, setHovered] = useState(false)

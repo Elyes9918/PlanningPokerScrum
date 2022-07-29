@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 import './Toolbar.css';
 import { useLocation } from 'react-router-dom';
 
-export const title = 'Planning Poker';
+export const title = 'Scrum Planning Poker';
 
 
 
@@ -40,7 +40,7 @@ export const Toolbar = () => {
             >
               <GamesIcon className='HeaderIcon' />
               <Typography variant={isSmallScreen? 'subtitle1':'h5'} color='inherit' noWrap>
-                {title} players
+                {title} 
               </Typography>
             </div>
 

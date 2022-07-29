@@ -16,9 +16,6 @@ export const TasksList = () => {
 
     const { response:Tasks, loading } = useAxios('/Tasks');
 
-
-
-
     return (
        
         <div className="center-div">
@@ -48,13 +45,8 @@ export const TasksList = () => {
                    </tbody>  
                   )}
                 
-        
                 <button className="btn btn-dark" onClick={() => history.push(`/game/${gameId}`)} style={{marginTop:15,width:140}}>Back to game</button>
                 </Table>
-
-                {/* <div className='footer'>
-                <Footer />
-                </div> */}
                 
         </div>
         
