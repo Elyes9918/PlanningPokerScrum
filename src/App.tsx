@@ -27,7 +27,6 @@ function App() {
             <Route exact path='/join' component={HomePage} />
             <Route path="*" component={NotFound}/> 
           </Switch>
-        
         </Router>
       </StylesProvider>
     </ThemeProvider>

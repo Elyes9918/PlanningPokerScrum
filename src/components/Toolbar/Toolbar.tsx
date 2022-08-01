@@ -11,22 +11,18 @@ import { useHistory } from 'react-router-dom';
 import './Toolbar.css';
 import { useLocation } from 'react-router-dom';
 
-export const title = 'Scrum Planning Poker';
-
-
-
+ 
 export const Toolbar = () => {
   const history = useHistory();
   const isSmallScreen = useMediaQuery((theme: any)  => theme.breakpoints.down("xs"));
 
 
+  const title = 'Scrum Planning Poker';
 
 
   const location = useLocation();
   const isJoinPage = location.pathname.includes('join');
   const isHomePage = location.pathname.includes('home');
-
-  
 
   return (
     <Slide direction='down' in={true} timeout={800}>
@@ -46,16 +42,22 @@ export const Toolbar = () => {
 
 
             <div>
-              <Button title="New Session" startIcon={<AddCircleOutlineIcon/>} color='inherit' onClick={() => history.push('/home')}>
+            {(isJoinPage || isHomePage) && 
+            
+            <Button title="New Session" startIcon={<AddCircleOutlineIcon/>} color='inherit' onClick={() => history.push('/home')}>
                 {!isSmallScreen ? 'New Session': null}
-              </Button>
-              <Button startIcon={<MergeTypeOutlinedIcon/>} size={ isSmallScreen ? "small" : "large"}  color='inherit' onClick={() => history.push('/join')}>
-                {!isSmallScreen ? 'Join Session' : null}
-              </Button>
+            </Button>
+            }
+            
+            {(isJoinPage || isHomePage) && 
+            <Button startIcon={<MergeTypeOutlinedIcon/>} size={ isSmallScreen ? "small" : "large"}  color='inherit' onClick={() => history.push('/join')}>
+              {!isSmallScreen ? 'Join Session' : null}
+            </Button>
+            }
 
-              {!isHomePage && !isJoinPage && <Button startIcon={<ExitToApp/>} size={ isSmallScreen ? "small" : "large"}  color='inherit' onClick={() => history.push('/home')}>
-                Exit
-              </Button>}
+            {!isHomePage && !isJoinPage && <Button startIcon={<ExitToApp/>} size={ isSmallScreen ? "small" : "large"}  color='inherit' onClick={() => history.push('/home')}>
+              Exit
+            </Button>}
               
 
               <Button
@@ -63,7 +65,7 @@ export const Toolbar = () => {
                 color='inherit'
                 onClick={() =>
                   (window.location.href =
-                    'https://github.com/hellomuthu23/planning-poker')
+                    'https://github.com/Elyes9918')
                 }
               >
                 <GithubIcon></GithubIcon>

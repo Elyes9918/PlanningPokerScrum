@@ -45,8 +45,12 @@ export const TasksList = () => {
                    </tbody>  
                   )}
                 
-                <button className="btn btn-dark" onClick={() => history.push(`/game/${gameId}`)} style={{marginTop:15,width:140}}>Back to game</button>
+                
                 </Table>
+
+                <div style={{marginLeft:100}}>
+                <button className="btn btn-dark" onClick={() => history.push(`/game/${gameId}`)} style={{marginTop:15,width:140}}>Back to game</button>
+                </div>
                 
         </div>
         

@@ -50,18 +50,6 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ game, players,currentPla
         fetchData(game.id);
       }, [game.id]);
     
-    
-
-    const messages1 = [
-        {
-            "text": "Hello there",
-            "id": "1",
-            "sender": {
-            "name": "Ironman",
-            "uid": "user1",
-            },
-        },    
-        ]
 
 
     const user = {

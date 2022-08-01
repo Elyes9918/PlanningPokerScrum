@@ -28,7 +28,7 @@ export const EtasksList = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [gameId]);
 
   const goToGameController = (taskId:string) =>{
     history.push(`/game/${gameId}/${taskId}`)

@@ -3,28 +3,35 @@
       {
         "id": "1",
         "title": "My first task",
-        "body": "1 Why do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here.",
+        "body": "Developing or validating test routines and schedules to ensure that test cases mimic external interfaces and address all browser and device types.",
         "author": "Elyes"
         
       },
       {
         "id": "2",
-        "title": "My second task",
-        "body": "2 Why do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here.",
-        "author": "Ala"
+        "title": "My first task",
+        "body": "Write well designed, testable, efficient code by using best software development practices",
+        "author": "Elyes"
         
       },
       {
         "id": "3",
-        "title": "My third task",
-        "body": "3 Why do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here.",
-        "author": "anes"
+        "title": "My second task",
+        "body": "Cooperate with web designers to match visual design intent",
+        "author": "Ala"
         
       },
       {
         "id": "4",
+        "title": "My third task",
+        "body": "Create website layout/user interface by using standard HTML/CSS practices",
+        "author": "anes"
+        
+      },
+      {
+        "id": "5",
         "title": "My fourth task",
-        "body": "4 Why do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here.",
+        "body": "Integrate data from various back-end services and databases",
         "author": "dhia"
         
       }
