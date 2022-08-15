@@ -11,11 +11,12 @@ import {CSVLink, CSVDownload} from 'react-csv';
 
 
 export const EtasksList = () => {
-    let { gameId } = useParams<{ gameId: string }>();
-    const history = useHistory();
 
-    const [etasks, setEtasks] = useState<Etask[] | undefined>(undefined);
-    const [loading, setLoading] = useState(false);
+  let { gameId } = useParams<{ gameId: string }>();
+  const [etasks, setEtasks] = useState<Etask[] | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+
+  const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
