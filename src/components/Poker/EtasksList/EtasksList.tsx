@@ -8,8 +8,6 @@ import { deleteEtaskById } from '../../../service/tasks';
 import {CSVLink, CSVDownload} from 'react-csv';
 
 
-
-
 export const EtasksList = () => {
 
   let { gameId } = useParams<{ gameId: string }>();
@@ -35,8 +33,8 @@ export const EtasksList = () => {
     history.push(`/game/${gameId}/${taskId}`)
   };
 
+  //To do
   const DownloadEtasks = () => {
-
   }
            
   
