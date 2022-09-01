@@ -3,18 +3,23 @@ import Table from 'react-bootstrap/Table';
 import './TasksList.css'
 import useAxios from '../../../service/useAxios';
 import { Task } from '../../../types/task';
+import { addCurrentSelectedTaskToGameinSTore } from '../../../repository/firebase';
+import { resetGame } from '../../../service/games';
 
 
 
-export const TasksList = () => {
+export const TasksList= () => {
     let { gameId } = useParams<{ gameId: string }>();
     const history = useHistory();
 
-    const goToGameController = (taskId:string) =>{
-        history.push(`/game/${gameId}/${taskId}`)
-      };
-
     const { response:Tasks, loading } = useAxios('/Tasks');
+
+
+    const goToGameController = () =>{
+        history.push(`/game/${gameId}/`);
+       // history.push(`/game/${gameId}`);
+       //<Link to={{pathname: `/game/${gameId}`,state: {id:taskId }}}></Link>
+      };
 
     return (
        
@@ -36,29 +41,25 @@ export const TasksList = () => {
                     {Tasks && Tasks.map((item:Task) => 
                     <tr >
                         <td>{item.id}</td>
-                        <td>{item.body}</td>
-                        <td><button className="btn btn-danger" onClick={()=>goToGameController(item.id)}>Estimate Task</button></td>
                         
+                        <td>{item.body}</td>
+                        <td><button className="btn btn-danger" onClick={()=>{resetGame(gameId);goToGameController();     addCurrentSelectedTaskToGameinSTore(gameId,{ 
+                                                            id: item.id,
+                                                            title: item.title,
+                                                            body: item.body,
+                                                            author: item.author,
+                                                            estimation: -1,
+                                                          })} }>Estimate Task</button></td>
                         </tr>
                      )}
-                    
                    </tbody>  
                   )}
-                
-                
                 </Table>
-
                 <div style={{marginLeft:100}}>
                 <button className="btn btn-dark" onClick={() => history.push(`/game/${gameId}`)} style={{marginTop:15,width:140}}>Back to game</button>
-                </div>
-                
+                </div>        
         </div>
-        
-        
-
-    );
-
-    
+    );   
  };
 
  export default TasksList;

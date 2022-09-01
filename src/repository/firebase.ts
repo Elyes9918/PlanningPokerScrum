@@ -4,7 +4,7 @@ import 'firebase/firestore';
 import { Game } from '../types/game';
 import { Message } from '../types/message';
 import { Player } from '../types/player';
-import { Etask } from '../types/task';
+import { Etask, Task } from '../types/task';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-bgF_S0mR5FEc63ByNMo0ZV0wjY2r_K4",
@@ -21,7 +21,8 @@ firebase.initializeApp(firebaseConfig);
 const gamesCollectionName = 'games';
 const playersCollectionName = 'players';
 const tasksCollectionName = 'tasks';
-const messagesCollectionName='messages'
+const messagesCollectionName='messages';
+const currentSelectedTask='currentTask';
 const db = firebase.firestore();
 
 // Games ---------------------------------------------------------------------------------------------------------------------
@@ -160,3 +161,25 @@ export const getMessageFromStore = async (gameId: string, messageId: string): Pr
 export const deleteMessageFromStore = async (gameId:string,messageId:string)=>{
   await db.collection(gamesCollectionName).doc(gameId).collection(messagesCollectionName).doc(messageId).delete();
 }
+
+// Current Task---------------------------------------------------------------------------------------------------------------------
+
+export const addCurrentSelectedTaskToGameinSTore = async (gameId:string,task:Etask) =>{
+  await db.collection(gamesCollectionName).doc(gameId).collection(currentSelectedTask).doc("1").set(task);
+  return true;
+}
+
+export const deleteCurrentSelectedTaskFromStore = async (gameId:string)=>{
+  await db.collection(gamesCollectionName).doc(gameId).collection(currentSelectedTask).doc("1").delete();
+}
+
+export const geCurrentSelectedTaskFromStore = async (gameId: string): Promise<Etask | undefined> => {
+  const db = firebase.firestore();
+  const response = db.collection(gamesCollectionName).doc(gameId).collection(currentSelectedTask).doc("1");
+  const result = await response.get();
+  let currentTask = undefined;
+  if (result.exists) {
+    currentTask = result.data();
+  }
+  return currentTask as Etask;
+};

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, Divider, Grow, IconButton, Snackbar, Typography } from '@material-ui/core';
-import { blue, green, orange,purple,brown,grey } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors';
 import RefreshIcon from '@material-ui/icons/Autorenew';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import LinkIcon from '@material-ui/icons/Link';
@@ -7,28 +7,44 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import DesktopMac from '@material-ui/icons/DesktopMac';
 import Dock from '@material-ui/icons/Dock'
 import Alert from '@material-ui/lab/Alert';
-import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { finishGame, resetGame } from '../../../service/games';
 import { Game, GameType } from '../../../types/game';
 import Table from 'react-bootstrap/Table';
 
 import './GameController.css';
-import useAxios from '../../../service/useAxios';
+import { Etask } from '../../../types/task';
+import { addCurrentSelectedTaskToGameinSTore, geCurrentSelectedTaskFromStore } from '../../../repository/firebase';
 
 
 interface GameControllerProps {
-  game: Game;
-  currentPlayerId: string;
+  game?: Game;
+  currentPlayerId?: string;
 }
 
 export const GameController: React.FC<GameControllerProps> = ({ game, currentPlayerId }) => {
   const history = useHistory();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const [taskToBeEstimated, setTaskToBeEstimated] = useState<Etask | undefined>(undefined);
+  const [taskIdToBe,setTaskIdToBe]=useState<string|undefined>(undefined);
+  const [loading, setLoading] = useState(false);
 
-  let { taskId } = useParams<{ taskId: string }>();
 
-  const { response:TaskById } = useAxios('/Tasks/'+taskId);
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true)
+      const currentEtask = await geCurrentSelectedTaskFromStore(game.id);
+      if (currentEtask) {
+        setTaskToBeEstimated(currentEtask);
+        setTaskIdToBe(currentEtask.id);
+        setLoading(false)
+      }
+    }
+    fetchData();
+    
+  }, [game.id]);
+ 
   
   const copyInviteLink = () => {
     const dummy = document.createElement('input');
@@ -57,6 +73,14 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
     return moderatorId === currentPlayerId;
   };
 
+  const RestartGame = () =>{
+    resetGame(game.id);
+    window.location.reload();
+  }
+
+ const RefreshPage = () =>{
+ window.location.reload();
+ }
 
   return (
     <div>
@@ -70,7 +94,7 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
               <div className='GameControllerCardHeaderAverageContainer'>
                 <Typography variant='subtitle1'>   {game.gameStatus}</Typography>
                 <Divider className='GameControllerDivider' orientation='vertical' flexItem />
-                <Typography variant='subtitle1'>Task id : {taskId} </Typography>
+                <Typography variant='subtitle1'>Task id : {taskIdToBe}</Typography>
                 
                 {game.gameType !== GameType.TShirt && (
                   <>
@@ -86,15 +110,19 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
             className='GameControllerCardTitle'
           ></CardHeader>
           <CardContent className='GameControllerCardContentArea'>
+
+          
+            
+
             {isModerator(game.createdById, currentPlayerId) && (
               <>
                 <div className='GameControllerButtonContainer'>
                   <div className='GameControllerButton'>
                     <IconButton onClick={() => finishGame(game.id,{ 
-                                                            id: TaskById.id,
-                                                            title: TaskById.title,
-                                                            body: TaskById.body,
-                                                            author: TaskById.author,
+                                                            id: taskToBeEstimated.id,
+                                                            title: taskToBeEstimated.title,
+                                                            body: taskToBeEstimated.body,
+                                                            author: taskToBeEstimated.author,
                                                             estimation: game.average
                                                           })} 
                       data-testid='reveal-button' color='primary'>
@@ -106,7 +134,12 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
 
                 <div className='GameControllerButtonContainer'>
                   <div className='GameControllerButton'>
-                    <IconButton data-testid={'restart-button'} onClick={() => resetGame(game.id)}>
+                    <IconButton data-testid={'restart-button'} onClick={() => {addCurrentSelectedTaskToGameinSTore(game.id,{ 
+                                                                                id: "0",
+                                                                                title: "null",
+                                                                                body: "No task selected yet",
+                                                                                author: "null",
+                                                                                estimation: 0,});RestartGame();}}>
                       <RefreshIcon fontSize='large' style={{ color: grey[800] }} />
                     </IconButton>
                   </div>
@@ -131,6 +164,17 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
                 <Typography variant='caption'>E-Tasks</Typography>
               </div>
               </>
+            )}
+
+          {!isModerator(game.createdById, currentPlayerId) &&    (                                     
+            <div title='Copy invite link' className='GameControllerButtonContainer'>
+              <div className='GameControllerButton'>
+                <IconButton data-testid='invite-button' onClick={() => RefreshPage()}>
+                  <RefreshIcon fontSize='large' style={{ color: grey[800] }} />
+                </IconButton>
+              </div>
+              <Typography variant='caption'>Refresh</Typography>
+            </div>
             )}
            
             <div title='Copy invite link' className='GameControllerButtonContainer'>
@@ -161,10 +205,7 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
           <Alert severity='success'>Invite Link copied to clipboard!</Alert>
         </Snackbar>
 
-        
-
-            
-
+      
       </div>
     </Grow>
 
@@ -177,7 +218,7 @@ export const GameController: React.FC<GameControllerProps> = ({ game, currentPla
       </thead>
       <tbody>
         <tr >
-          {TaskById ? (<td>{TaskById.body}</td>) : (<td>No task selected</td>)}
+          {taskToBeEstimated ? (<td>{taskToBeEstimated.body}</td>) : (<td>No task selected</td>)}
           
           
         </tr>

@@ -1,4 +1,4 @@
-import { addEtaskToGameinSTore, deleteEtaskFromStore, getGameFromStore } from "../repository/firebase";
+import { addEtaskToGameinSTore, deleteEtaskFromStore, getEtaskFromStore, getGameFromStore } from "../repository/firebase";
 import { Etask } from "../types/task";
 
 export const addTask = async (gameId: string, etask: Etask): Promise<boolean> => {
@@ -9,6 +9,14 @@ export const addTask = async (gameId: string, etask: Etask): Promise<boolean> =>
     }
     return true;
 };
+
+export const getTaskById = async (gameId:string,taskId:string):Promise<Etask> =>{
+
+    const etask = await getEtaskFromStore(gameId,taskId);
+
+    return etask as Etask
+};
+
 
 export const deleteEtaskById = async(gameId:string,etaskId:string)=>{
     await deleteEtaskFromStore(gameId,etaskId);
